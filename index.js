@@ -195,6 +195,25 @@ app.get('/admin/sweat/image', checkTokenMiddleware, async (req, res) => {
 
 })
 
+app.delete("/admin/sweat", checkTokenMiddleware, async (req, res) => {
+    if(!req.body.id) {
+        return res.status(400).json({message: "no id given"});
+    }
+    const filter = {_id:new ObjectId(req.body.id)};
+    const data = await sweat.findOne(filter);
+    data.filenames.forEach((file) => {
+        const dest = `${__dirname}/static/images/${file}`;
+        unlink(dest, err => {
+            console.log(err);
+        })
+    })
+    const result = await sweat.deleteOne(filter);
+    res.send({
+        message: `successfully deleted ${result.deletedCount} sweat`
+    })
+    
+})
+
 app.delete("/admin/sweat/image", checkTokenMiddleware, async (req, res) => {
     if(!req.body.id || !req.body.filename) {
         return res.status(400).json({message: "no id or filename given"});
