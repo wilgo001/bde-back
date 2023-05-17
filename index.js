@@ -17,6 +17,7 @@ const adminSweatRoutes = require('./routes/adminRoutes/adminSweatRoutes');
 const adminSweatImageRoutes = require('./routes/adminRoutes/adminSweatImageRoutes');
 
 const sweatRoutes = require('./routes/sweatRoutes');
+const imageRoutes = require('./routes/imageRoutes');
 
 const app = express();
 app.use(cors(corsOptions));
@@ -35,6 +36,7 @@ app.use('/admin/sweat', adminSweatRoutes);
 app.use('/admin/sweat/image', adminSweatImageRoutes);
 
 app.use('/sweat', sweatRoutes);
+app.use('/image', imageRoutes);
 
 app.listen(port, async () => {
     mongoDB.connect();
